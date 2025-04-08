@@ -5,12 +5,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Logo from './Logo';
 import { usePathname } from 'next/navigation';
+import { useAuth, UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
 
 const Navbar = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { isLoaded, userId } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -138,8 +140,79 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
+          {/* User authentication and cart */}
+          <div className="hidden md:flex items-center space-x-4">
+            {/* Cart link */}
+            <Link 
+              href="/cart" 
+              className="text-gray-700 hover:text-gray-900 relative"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              <span className="absolute -top-2 -right-2 bg-amber-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                2
+              </span>
+            </Link>
+
+            {/* Auth buttons */}
+            <SignedIn>
+              {/* Show user button and dashboard link when signed in */}
+              <div className="flex items-center space-x-4">
+                <Link 
+                  href="/dashboard" 
+                  className={`px-3 py-2 text-sm font-medium transition ${
+                    isActive('/dashboard') 
+                      ? 'text-amber-600 font-semibold' 
+                      : 'text-gray-700 hover:text-gray-900 hover:underline'
+                  }`}
+                >
+                  Dashboard
+                </Link>
+                <UserButton 
+                  afterSignOutUrl="/"
+                  appearance={{
+                    elements: {
+                      userButtonAvatarBox: "w-9 h-9"
+                    }
+                  }}
+                />
+              </div>
+            </SignedIn>
+
+            <SignedOut>
+              {/* Show sign in and sign up when signed out */}
+              <div className="flex items-center space-x-2">
+                <Link 
+                  href="/sign-in" 
+                  className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:underline"
+                >
+                  Sign In
+                </Link>
+                <Link 
+                  href="/sign-up" 
+                  className="px-4 py-2 text-sm font-medium text-white bg-amber-600 rounded-md hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            </SignedOut>
+          </div>
+
+          {/* Mobile menu button and cart */}
+          <div className="md:hidden flex items-center space-x-2">
+            <Link 
+              href="/cart" 
+              className="text-gray-700 hover:text-gray-900 relative p-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              <span className="absolute top-0 right-0 bg-amber-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                2
+              </span>
+            </Link>
+            
             <button
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -257,6 +330,42 @@ const Navbar = () => {
                 </div>
               )}
             </div>
+
+            {/* Authentication links for mobile */}
+            <SignedIn>
+              <Link 
+                href="/dashboard" 
+                className={`block px-3 py-2 text-base font-medium rounded-md ${
+                  isActive('/dashboard')
+                    ? 'bg-amber-50 text-amber-600'
+                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Dashboard
+              </Link>
+              <div className="px-3 py-2 flex items-center">
+                <UserButton afterSignOutUrl="/" />
+                <span className="ml-3 text-gray-700">Account</span>
+              </div>
+            </SignedIn>
+
+            <SignedOut>
+              <Link 
+                href="/sign-in" 
+                className={`block px-3 py-2 text-base font-medium rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-50`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sign In
+              </Link>
+              <Link 
+                href="/sign-up" 
+                className={`block px-3 py-2 text-base font-medium rounded-md bg-amber-600 text-white hover:bg-amber-700`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sign Up
+              </Link>
+            </SignedOut>
           </div>
         </div>
       )}

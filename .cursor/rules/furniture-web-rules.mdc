@@ -1,0 +1,75 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Project Name: Imperial Furnished
+
+📁 Project Type: Full-stack eCommerce Furniture Website  
+🔧 Tech Stack:
+- Frontend: Next.js (App Router) + Tailwind CSS + TypeScript + shadcn/ui
+- Auth: Clerk (email + Google login)
+- Backend: MongoDB (via Prisma or Mongoose)
+- Payment: Stripe or Razorpay
+- AI: OpenAI API for chatbot
+- CRM: Airtable or Notion for custom order/contact forms
+- Hosting: Vercel
+
+📚 Folder Structure:
+- /public – Static assets like images, icons
+- /styles – Global CSS or Tailwind config (if any)
+Inside the src folder:
+- /app – Pages and route handlers (App Router)
+- /components – UI components (Navbar, Footer, ProductCard, etc.)
+- /lib – Utilities (e.g. auth helpers, formatter)
+- /db – Database models and seed scripts
+
+
+🌐 Main Pages:
+- `/` – Home (hero, products, testimonials, WhatsApp)
+- `/latest-products` – Newest additions
+- `/collections` – Categories like Sofas, Chairs, Puffies
+- `/trending` – Most viewed/rated
+- `/about` – Company story
+- `/contact`, `/faq` – Under “Customer Services”
+- `/products/[id]` – Product Details
+- `/cart`, `/checkout`, `/order-success`
+- `/dashboard` – User panel (orders + tracking)
+- `/admin` – Admin panel (CRUD products, update orders)
+
+🔒 Auth:
+- Use Clerk for signup/login
+- Use Clerk middleware to protect `/dashboard` and `/admin`
+- Include user roles for Admin access
+
+🛒 Cart & Order Logic:
+- Cart managed with context or local state (then synced to DB)
+- Checkout integrated with Stripe/Razorpay
+- Store order data in MongoDB with statuses (pending, shipped, delivered)
+
+🤖 AI Chat Assistant:
+- Floating chatbot using OpenAI (GPT-4)
+- Can answer: product queries, order status, furniture recommendations
+
+📞 WhatsApp Integration:
+- Floating button linking to WhatsApp message (prefilled)
+
+🛠 Admin Features:
+- Add/Edit/Delete products
+- Manage stock, see customer orders, change order status
+- View messages/custom orders from CRM forms
+
+📝 Extra Features:
+- Wishlist, reviews, coupons, multilingual (EN/HI)
+- Email notifications using Resend or SendGrid
+- Custom Order Form with file/image upload
+- Footer with policy links
+
+🎯 Style Guide:
+- Use Tailwind + shadcn/ui for consistent UI
+- Typography: bold titles, legible font, spacing between sections
+- Responsive by default, include mobile nav (hamburger)
+- Components should be reusable (e.g., ProductCard, Button)
+
+🔥 Goal:
+Build a scalable, modern, interactive platform for a custom furniture business with smooth UX, personalization, and full admin control.
